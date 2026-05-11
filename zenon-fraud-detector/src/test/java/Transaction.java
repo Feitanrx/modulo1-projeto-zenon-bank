@@ -1,12 +1,8 @@
-public record Transaction(int step, Tipo type, double amount, String nameOrig, double oldbalanceOrg,
+public record Transaction(int step, Tipo type, double amount, Conta nameOrig, double oldbalanceOrg,
                           double newbalanceOrig,
-                          String nameDest, double oldbalanceDest,
+                          Conta nameDest, double oldbalanceDest,
                           double newbalanceDest, boolean isFraud, boolean isFlaggedFraud) {
 
-
- public enum Tipo {
-CASH_IN, CASH_OUT, DEBIT, PAYMENT , TRANSFER
-    }
 
     @Override
     public String toString() {
@@ -23,5 +19,9 @@ CASH_IN, CASH_OUT, DEBIT, PAYMENT , TRANSFER
                 ", isFraud=" + isFraud +
                 ", isFlaggedFraud=" + isFlaggedFraud +
                 '}';
+    }
+
+    public enum Tipo {
+        CASH_IN, CASH_OUT, DEBIT, PAYMENT, TRANSFER
     }
 }

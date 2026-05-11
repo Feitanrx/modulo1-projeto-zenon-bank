@@ -7,12 +7,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-
 //Classe
 public class TransactionIngestor {
     // Cria metodo com retorno em formato de list, static para não precisar criar
     // objeto para utilizar o metodo.
-    public static List<Transaction> read(String nameFile)  {
+    public static List<Transaction> read(String nameFile) {
         //criar um arraylist
         List<Transaction> transactionsList = new ArrayList<>();
         //faz o path do arquivo CSV, seja qual for.
@@ -27,15 +26,17 @@ public class TransactionIngestor {
             while ((linha = br.readLine()) != null && contador < 1000) {
                 try {
                     String[] partes = linha.split(",");
+                    Conta origem = new Conta (partes[3]);
+                    Conta destino = new Conta (partes[6]);
 
                     Transaction transaction = new Transaction(
                             Integer.parseInt(partes[0]),
                             Transaction.Tipo.valueOf(partes[1]),
                             Double.parseDouble(partes[2]),
-                            partes[3],
+                            origem,
                             Double.parseDouble(partes[4]),
                             Double.parseDouble(partes[5]),
-                            partes[6],
+                            destino,
                             Double.parseDouble(partes[7]),
                             Double.parseDouble(partes[8]),
                             Boolean.parseBoolean(partes[9]),
@@ -48,7 +49,7 @@ public class TransactionIngestor {
                     transactionsList.add(transaction);
 
                     contador++;
-            }catch (Exception e){
+                } catch (Exception e) {
                     IO.println("Erro na linha");
                 }
             }
