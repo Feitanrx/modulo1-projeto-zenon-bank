@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.Proxy;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,16 +17,19 @@ public class TransactionIngestor {
         Path path = Paths.get(nameFile);
 
         //ler o csv
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(nameFile));
+        try (BufferedReader br = new BufferedReader(new FileReader(nameFile))){
             String linha;
             br.readLine();
             int contador = 0;
-            while ((linha = br.readLine()) != null && contador < 1000) {
+            while ((linha = br.readLine()) != null && contador < 20) {
                 try {
                     String[] partes = linha.split(",");
                     Conta origem = new Conta (partes[3]);
                     Conta destino = new Conta (partes[6]);
+
+//if(Integer.parseInt(partes[0])>=1 | Double.parseDouble(partes[2]) < 0 | Double.parseDouble(partes[4]) < 0 | Double.parseDouble(partes[5]) < 0
+        //| Double.parseDouble(partes[7]) < 0 | Double.parseDouble(partes[8]) < 0){
+    //IO.println("Erro nos valores");}
 
                     Transaction transaction = new Transaction(
                             Integer.parseInt(partes[0]),
@@ -47,10 +49,11 @@ public class TransactionIngestor {
 
                     //adiciona cada transacao convertida a transactionsList
                     transactionsList.add(transaction);
+                    IO.println(transaction);
 
                     contador++;
                 } catch (Exception e) {
-                    IO.println("Erro na linha");
+                    IO.println("Erro: ");
                 }
             }
         } catch (RuntimeException | IOException e) {
