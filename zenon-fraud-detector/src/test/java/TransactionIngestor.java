@@ -1,0 +1,60 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.Proxy;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+
+//Classe
+public class TransactionIngestor {
+    // Cria metodo com retorno em formato de list, static para não precisar criar
+    // objeto para utilizar o metodo.
+    public static List<Transaction> read(String nameFile)  {
+        //criar um arraylist
+        List<Transaction> transactionsList = new ArrayList<>();
+        //faz o path do arquivo CSV, seja qual for.
+        Path path = Paths.get(nameFile);
+
+        //ler o csv
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(nameFile));
+            String linha;
+            br.readLine();
+            int contador = 0;
+            while ((linha = br.readLine()) != null && contador < 1000) {
+                try {
+                    String[] partes = linha.split(",");
+
+                    Transaction transaction = new Transaction(
+                            Integer.parseInt(partes[0]),
+                            Transaction.Tipo.valueOf(partes[1]),
+                            Double.parseDouble(partes[2]),
+                            partes[3],
+                            Double.parseDouble(partes[4]),
+                            Double.parseDouble(partes[5]),
+                            partes[6],
+                            Double.parseDouble(partes[7]),
+                            Double.parseDouble(partes[8]),
+                            Boolean.parseBoolean(partes[9]),
+                            Boolean.parseBoolean(partes[10])
+                    );
+//step, type, amount, nameOrig, oldbalanceOrg, newbalanceOrig,
+// nameDest, oldbalanceDest, newbalanceDest, isFraud, isFlaggedFraud
+
+                    //adiciona cada transacao convertida a transactionsList
+                    transactionsList.add(transaction);
+
+                    contador++;
+            }catch (Exception e){
+                    IO.println("Erro na linha");
+                }
+            }
+        } catch (RuntimeException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        return transactionsList;
+    }
+}
