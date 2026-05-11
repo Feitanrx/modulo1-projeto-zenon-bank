@@ -5,7 +5,6 @@ import java.util.List;
 public class main {
     static void main() {
 
-
     Transaction transac_1 = new Transaction(1, Transaction.Tipo.PAYMENT,9839.64,"C1231006815",170136.0,160296.36,"M1979787155",0.0,0.0,false,
             false);
     Transaction transac_2 = new Transaction(1, Transaction.Tipo.TRANSFER,181.0,"C1305486145",181.0,0.0,

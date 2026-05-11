@@ -4,7 +4,6 @@ public record Transaction(int step, Tipo type, double amount, String nameOrig, d
                           double newbalanceDest, boolean isFraud, boolean isFlaggedFraud) {
 
 
-
  public enum Tipo {
 CASH_IN, CASH_OUT, DEBIT, PAYMENT , TRANSFER
     }
