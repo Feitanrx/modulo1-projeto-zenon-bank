@@ -1,49 +1,36 @@
 import java.util.Objects;
 
 public record Transaction(int step,
-                          Tipo type,
+                          TransactionType type,
                           double amount,
-                          Conta nameOrig,
-                          double oldbalanceOrg,
-                          double newbalanceOrig,
-                          Conta nameDest,
-                          double oldbalanceDest,
-                          double newbalanceDest,
+                          TransactionCustomer origin,
+                          TransactionCustomer recipient,
                           boolean isFraud,
                           boolean isFlaggedFraud) {
-    public Transaction {
-        Objects.requireNonNull(type, "type não pode ser null");
-
-        Objects.requireNonNull(nameOrig, "nameOrig não pode ser null");
-
-        Objects.requireNonNull(nameDest, "nameDest não pode ser null");
-
-        if(step <= 0 || amount <0 || oldbalanceOrg < 0|| newbalanceOrig <0|| oldbalanceDest <0|| newbalanceDest <0) {
-            throw new IllegalArgumentException("Erro: ");
-        }
-    }
-
-
     @Override
     public String toString() {
-        return
-                step +
-                "," + type +
-                "," + amount +
-                "," + nameOrig + '\'' +
-                "," + oldbalanceOrg +
-                "," + newbalanceOrig +
-                "," + nameDest + '\'' +
-                "," + oldbalanceDest +
-                "," + newbalanceDest +
-                "," + isFraud +
-                "," + isFlaggedFraud + ""
-                ;
+        return "Transaction{" +
+                "step=" + step +
+                ", type=" + type +
+                ", amount=" + amount +
+                ", origin=" + origin +
+                ", recipient=" + recipient +
+                ", isFraud=" + isFraud +
+                ", isFlaggedFraud=" + isFlaggedFraud +
+                "}";
     }
 
+    public Transaction {
+
+        if(step < 1 ) throw new IllegalArgumentException("Step should be positive" + step);
+        if(amount < 0 ) throw new IllegalArgumentException("amount should be positive" + amount);
+
+        Objects.requireNonNull(type, "type não pode ser null" + type);
+
+        Objects.requireNonNull(origin, "nameOrig não pode ser null" + origin);
+
+        Objects.requireNonNull(recipient, "nameDest não pode ser null" + recipient);
 
 
-    public enum Tipo {
-        CASH_IN, CASH_OUT, DEBIT, PAYMENT, TRANSFER
-    }
+}
 }

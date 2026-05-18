@@ -21,39 +21,36 @@ public class TransactionIngestor {
             String linha;
             br.readLine();
             int contador = 0;
-            while ((linha = br.readLine()) != null && contador < 20) {
+            int limite = 20;
+            while ((linha = br.readLine()) != null && contador < limite) {
                 try {
                     String[] partes = linha.split(",");
-                    Conta origem = new Conta (partes[3]);
-                    Conta destino = new Conta (partes[6]);
 
-//if(Integer.parseInt(partes[0])>=1 | Double.parseDouble(partes[2]) < 0 | Double.parseDouble(partes[4]) < 0 | Double.parseDouble(partes[5]) < 0
-        //| Double.parseDouble(partes[7]) < 0 | Double.parseDouble(partes[8]) < 0){
-    //IO.println("Erro nos valores");}
+                    //Cria os dois Customers
+                    double oldBalance = Double.parseDouble(partes[4]);
+                    double newBalance = Double.parseDouble(partes[5]);
+                    TransactionCustomer origin = new TransactionCustomer(partes[3], oldBalance, newBalance);
 
+                    double oldBalanceDest = Double.parseDouble(partes[7]);
+                    double newBalanceDest = Double.parseDouble(partes[8]);
+                    TransactionCustomer dest = new TransactionCustomer(partes[6],oldBalanceDest,newBalanceDest);
+
+                    //Cria a transaction
                     Transaction transaction = new Transaction(
                             Integer.parseInt(partes[0]),
-                            Transaction.Tipo.valueOf(partes[1]),
+                            TransactionType.valueOf(partes[1]),
                             Double.parseDouble(partes[2]),
-                            origem,
-                            Double.parseDouble(partes[4]),
-                            Double.parseDouble(partes[5]),
-                            destino,
-                            Double.parseDouble(partes[7]),
-                            Double.parseDouble(partes[8]),
-                            Boolean.parseBoolean(partes[9]),
-                            Boolean.parseBoolean(partes[10])
+                            origin,
+                            dest,
+                            Integer.parseInt(partes[9]) == 1,
+                            Integer.parseInt(partes[10]) == 1
                     );
-//step, type, amount, nameOrig, oldbalanceOrg, newbalanceOrig,
-// nameDest, oldbalanceDest, newbalanceDest, isFraud, isFlaggedFraud
 
                     //adiciona cada transacao convertida a transactionsList
                     transactionsList.add(transaction);
-                    IO.println(transaction);
-
                     contador++;
                 } catch (Exception e) {
-                    IO.println("Erro: ");
+                    IO.println("Erro: " + linha + "|" + e);
                 }
             }
         } catch (RuntimeException | IOException e) {
