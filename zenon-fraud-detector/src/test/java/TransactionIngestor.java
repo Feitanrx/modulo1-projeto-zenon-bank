@@ -10,7 +10,7 @@ import java.util.List;
 public class TransactionIngestor {
     // Cria metodo com retorno em formato de list, static para não precisar criar
     // objeto para utilizar o metodo.
-    public static List<Transaction> read(String nameFile) {
+    public static List<Transaction> read(String nameFile, int limit) {
         //criar um arraylist
         List<Transaction> transactionsList = new ArrayList<>();
         //faz o path do arquivo CSV, seja qual for.
@@ -21,8 +21,7 @@ public class TransactionIngestor {
             String linha;
             br.readLine();
             int contador = 0;
-            int limite = 20;
-            while ((linha = br.readLine()) != null && contador < limite) {
+            while ((linha = br.readLine()) != null && contador < limit) {
                 try {
                     String[] partes = linha.split(",");
 

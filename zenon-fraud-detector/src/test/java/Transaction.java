@@ -20,6 +20,16 @@ public record Transaction(int step,
                 "}";
     }
 
+    @Override
+    public double amount() {
+        return amount;
+    }
+
+    @Override
+    public TransactionType type() {
+        return type;
+    }
+
     public Transaction {
 
         if(step < 1 ) throw new IllegalArgumentException("Step should be positive" + step);
