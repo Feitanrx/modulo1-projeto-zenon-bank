@@ -31,4 +31,34 @@ void main() {
 
     FraudAnalyzer.quantityFraudsPerType(listaSemErro5);
 
+    IO.println("--------------------------------------------------------");
+
+    List<Transaction> listaCM = TransactionIngestor.read(fileSemErro, 100000);
+
+
+    //Optional<Transaction> c9598 =
+    TransactionListRepository transactionRepositoryOBJ = new TransactionListRepository(listaCM);
+    TransactionRepoMAP transactionIngestorMapOBJ = new TransactionRepoMAP();
+
+    transactionRepositoryOBJ.findByNameEmLista(listaCM, "c9598").ifPresentOrElse(System.out::println, () -> IO.println("Transacao nao encontrada para cliente c9598"));
+
+    transactionRepositoryOBJ.findByNameEmLista(listaCM, "C1231006815").ifPresentOrElse(System.out::println,() -> IO.println("Transacao não encontrada para cliente c9598"));
+
+//Usando o TransactionListRepository, realize uma busca pelo nome da origem (nameOrig) da última transação da lista (C1868032458), o pior caso, e meça o tempo de busca usando System.nanoTime().
+    long startTime = System.nanoTime();
+    IO.println(startTime);
+
+transactionRepositoryOBJ.findByNameEmLista(listaCM, "C1868032458").ifPresentOrElse(System.out::println, () -> IO.println("nao encontrado"));
+    long endTime = System.nanoTime();
+    IO.println(endTime);
+IO.println((endTime - startTime)/1_000_000.0);
+
+    Map<String, Transaction> listaMAP =
+            TransactionIngestorMap.read(fileSemErro, 100000);
+    long startTimeMap = System.nanoTime();
+    IO.println(startTimeMap);
+    transactionIngestorMapOBJ.findByNameEmMap(listaMAP, "C1868032458");
+    long endTimeMap = System.nanoTime();
+    IO.println(endTimeMap);
+    IO.println((endTimeMap - startTimeMap )/1_000_000.0);
 }

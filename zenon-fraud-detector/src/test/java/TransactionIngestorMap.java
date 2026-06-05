@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 //Classe
-public class TransactionIngestor {
+public class TransactionIngestorMap {
     // Cria metodo com retorno em formato de list, static para não precisar criar
     // objeto para utilizar o metodo.
-    public static List<Transaction> read(String nameFile, int limit) {
+    public static Map<String, Transaction> read(String nameFile, int limit) {
         //criar um arraylist
         List<Transaction> transactionsList = new ArrayList<>();
         //cria um map
@@ -50,7 +50,7 @@ public class TransactionIngestor {
                     );
 
                     //adiciona cada transacao convertida a transactionsList
-                    transactionsList.add(transaction);
+                    transactionMap.put(origin.name(), transaction);
                     contador++;
                 } catch (Exception e) {
                     IO.println("Erro: " + linha + "|" + e);
@@ -60,6 +60,6 @@ public class TransactionIngestor {
             throw new RuntimeException(e);
         }
 
-        return transactionsList;
+        return transactionMap;
     }
 }
