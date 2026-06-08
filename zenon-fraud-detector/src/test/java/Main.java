@@ -56,9 +56,9 @@ IO.println((endTime - startTime)/1_000_000.0);
     Map<String, Transaction> listaMAP =
             TransactionIngestorMap.read(fileSemErro, 100000);
     long startTimeMap = System.nanoTime();
-    IO.println("Iniciou " + startTimeMap);
+    IO.println(startTimeMap);
     transactionIngestorMapOBJ.findByNameEmMap(listaMAP, "C1868032458");
     long endTimeMap = System.nanoTime();
-    IO.println("Acabou " + endTimeMap);
+    IO.println(endTimeMap);
     IO.println((endTimeMap - startTimeMap )/1_000_000.0);
 }
