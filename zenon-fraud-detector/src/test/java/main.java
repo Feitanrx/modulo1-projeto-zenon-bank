@@ -1,6 +1,6 @@
 void main() {
     String fileNameComErro = "data/paysim_with_bad_data.csv";
-    List<Transaction> listacomErro = TransactionIngestor.read(fileNameComErro, 10);
+    //List<Transaction> listacomErro = TransactionIngestor.read(fileNameComErro, 10);
 
     /*System.out.println(listacomErro.size());
     listacomErro.stream()
