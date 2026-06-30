@@ -1,4 +1,3 @@
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,14 +8,23 @@ public class TransactionRepoMAP implements TransactionRepositoryInterface{
 //    String fileSemErro = "data/PS_20174392719_1491204439457_log.csv";
 //
 //    Map<String, Transaction> transactionMap = TransactionIngestor.read(fileSemErro, 50000);
+String fileSemErro = "data/PS_20174392719_1491204439457_log.csv";
+
+    Map<String, Transaction> listaMAP =
+        TransactionIngestorMap.read(fileSemErro, 100000);
 
     @Override
-    public Optional<Transaction> findByNameEmLista(List<Transaction> lista, String name) {
+    public void save(Transaction transaction) {
+listaMAP.putIfAbsent(transaction.origin().name(), transaction);
+    }
+
+    @Override
+    public Optional<Transaction> findByNameEmLista(String name) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Transaction> findByNameEmMap(Map<String, Transaction> map, String name) {
-        return Optional.ofNullable(map.get(name));
+    public Optional<Transaction> findByNameEmMap(String name) {
+        return Optional.ofNullable(listaMAP.get(name));
     }
 }

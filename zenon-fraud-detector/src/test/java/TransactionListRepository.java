@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -8,21 +7,31 @@ public class TransactionListRepository implements TransactionRepositoryInterface
 
     private final List<Transaction> transactions;
 
+    String fileSemErro = "data/PS_20174392719_1491204439457_log.csv";
+
+    List<Transaction> listaCM = TransactionIngestor.read(fileSemErro, 100000);
+
+
     public TransactionListRepository(List<Transaction> transactions) {
         Objects.requireNonNull(transactions);
         this.transactions = transactions;
     }
 
     @Override
-    public Optional<Transaction> findByNameEmLista(List<Transaction> lista, String name) {
+    public void save(Transaction transacion) {
+        this.transactions.add(transacion);
+    }
 
-        return lista.stream()
+    @Override
+    public Optional<Transaction> findByNameEmLista( String name) {
+
+        return transactions.stream()
                 .filter(t -> t.origin().name().equals(name))
                 .findFirst();
     }
 
     @Override
-    public Optional<Transaction> findByNameEmMap(Map<String, Transaction> map, String name) {
+    public Optional<Transaction> findByNameEmMap(String name) {
         return Optional.empty();
     }
 }
